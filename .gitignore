@@ -1,2 +1,6 @@
 ﻿bigSister/__pycache__
 bigSister/migrations/__pycache__
+frontend/node_modules
+venv
+django_react/__pycache__
+frontend/__pycache__
