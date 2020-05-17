@@ -5,7 +5,13 @@ from .models import Istunto
 class AanestysSerializer(serializers.ModelSerializer):
     class Meta:
         model = Aanestys
-        fields = ('aanestysOtsikko', 'aanestysValtiopaivaasia', 'istuntoNumero', 'vuosi')
+        fields = (\
+            'aanestysOtsikko',\
+            'aanestysValtiopaivaasia',\
+            'id',\
+            'istuntoNumero',\
+            'kohtaOtsikko',\
+            'vuosi')
 
 class IstuntoSerializer(serializers.ModelSerializer):
     class Meta:

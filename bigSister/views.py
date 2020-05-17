@@ -18,13 +18,19 @@ class DataTypes(enum.Enum):
    MemberOfParliament = 4
 
 class AanestysListCreate(generics.ListCreateAPIView):
-    print("aanestysListCreate o/")
-    queryset = Aanestys.objects.all()[:840]
+    print("aanestysListCreate! o/")
+    queryset = Aanestys.objects.order_by('id')[:840]
+
     serializer_class = AanestysSerializer
 
 class IstuntoListCreate(generics.ListCreateAPIView):
     queryset = Istunto.objects.all()[:10]
     serializer_class = IstuntoSerializer
+
+class AanestysDetail(generics.RetrieveAPIView):
+    lookup_field = 'id'
+    queryset = Aanestys.objects.all()
+    serializer_class = AanestysSerializer
 
 def createAanestysObject(jsonDataRow):
     otsikko = ""
