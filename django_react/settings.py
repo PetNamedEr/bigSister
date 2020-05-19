@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'bigSister.apps.BigSisterConfig', # activate the new app
     'rest_framework',
     'frontend', # enable the frontend app
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -51,6 +52,15 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+MIDDLEWARE_CLASSES = (
+
+    'corsheaders.middleware.CorsMiddleware',  
+    'django.middleware.common.CommonMiddleware',  
+
+)
+CORS_ORIGIN_ALLOW_ALL = True # If this is used then `CORS_ORIGIN_WHITELIST` will not have any effect
+CORS_ALLOW_CREDENTIALS = True
 
 ROOT_URLCONF = 'django_react.urls'
 

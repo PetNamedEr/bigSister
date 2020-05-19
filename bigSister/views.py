@@ -18,9 +18,8 @@ class DataTypes(enum.Enum):
    MemberOfParliament = 4
 
 class AanestysListCreate(generics.ListCreateAPIView):
-    print("aanestysListCreate! o/")
+    print('list o/')
     queryset = Aanestys.objects.order_by('id')[:840]
-
     serializer_class = AanestysSerializer
 
 class IstuntoListCreate(generics.ListCreateAPIView):
@@ -28,6 +27,7 @@ class IstuntoListCreate(generics.ListCreateAPIView):
     serializer_class = IstuntoSerializer
 
 class AanestysDetail(generics.RetrieveAPIView):
+    print('detail o/')
     lookup_field = 'id'
     queryset = Aanestys.objects.all()
     serializer_class = AanestysSerializer
@@ -53,7 +53,6 @@ def createAanestysObject(jsonDataRow):
             aanestysTulosPoissa=jsonDataRow[26])
 
 def createAanestysEdustajaObject(aanestysId, edustajaAanestys, edustajaEtunimi, edustajaId, edustajaSukunimi):
-    #print(jsonDataRow[0] + " " + jsonDataRow[3] + " " + jsonDataRow[2])
     AanestysEdustaja.objects.create(\
         aanestysId=aanestysId,\
         edustajaId=edustajaId,\
@@ -73,23 +72,13 @@ def createIstuntoObject(jsonDataRow):
         vuosi=jsonDataRow[6])
 
 def index(request):
-    print("Hello there!")
-    #fetchData(2015)
-    #fetchData(2016)
-    #fetchData(2017)
-    #fetchData(2018)
-    # seuraava:fetchData(2015)
     fetchData(2016)
     
-    return HttpResponse("Äänestysdata fetched o/")
+    return HttpResponse("Ballot data fetched")
 
 def fetchData(vuosi):
-    #print("Haetaan istuntodata vuodelle " + str(vuosi))
-    #fetchJsonDataForDatatypeForCustomFilter(DataTypes.Istunto, vuosi)
     print("Haetaan äänestys vuodelle " + str(vuosi))
     fetchJsonDataForDatatypeForCustomFilter(DataTypes.Aanestys, vuosi)
-    #fetchJsonDataForDatatypeForCustomFilter(DataTypes.AanestysEdustaja, 43755)
-    #fetchJsonDataForDatatypeForCustomFilter(DataTypes.MemberOfParliament, 0)
     fetchAanestysEdustajaRowsForYear(vuosi)
 
 def fetchJsonDataForDatatypeForCustomFilter(dataType, customFilter):
@@ -115,14 +104,12 @@ def fetchJsonData(createObjectFunction, getUrlFunction, customFilter):
     pageNo = 0
     rows = []
     howManyTries = 0
-    #print("käsitellään " + str(customFilter))
 
     while (hasMoreDataAvailable == True):
         jsonData = fetchJsonFromUrl(getUrlFunction(pageNo, customFilter))
         
         rowData = jsonData["rowData"]
         for jsonDataRow in rowData:
-            # createObjectFunction(jsonDataRow)
             rows.append(jsonDataRow[3] + "/" + jsonDataRow[2] + "/" + jsonDataRow[6] + "/" + jsonDataRow[0] + "/" + jsonDataRow[1])
 
         if (jsonData["hasMore"] == True):
@@ -137,36 +124,14 @@ def fetchJsonData(createObjectFunction, getUrlFunction, customFilter):
                     hasMoreDataAvailable = False
             else:
                 hasMoreDataAvailable = False
-                #rows = l
-    # rows.sort()
-    # print("löydettiin " + str(len(rows)))
 
     for r in rows:
-        #r = r.replace(" ", "")
-        #r = r.strip()
         r = r.split("/")
-        '''print("!")
-        print(r[0])
-        print(r[1])
-        print(r[2])
-        print(r[3])
-        print(r[4])'''
         createAanestysEdustajaObject(int(r[4]),r[2].replace(" ", ""),r[1],int(r[3]),r[0])
-        #print(r)
-        #print(len(r))
-
-'''AanestysEdustaja.objects.create(\
-        aanestysId=aanestysId,\
-        edustajaAanestys=edustajaAanestys,\
-        edustajaEtunimi=edustajaEtunimi,\
-        edustajaId=edustajaId,\
-        edustajaSukunimi=edustajaSukunimi)
-        '''
         
 def fetchJsonData2(createObjectFunction, getUrlFunction, customFilter):
     hasMoreDataAvailable = True
     pageNo = 0
-    print("etsitään ")
     howManyFound = 0
 
     while (hasMoreDataAvailable == True):
@@ -180,13 +145,6 @@ def fetchJsonData2(createObjectFunction, getUrlFunction, customFilter):
             pageNo += 1
         else:
             hasMoreDataAvailable = False
-
-'''
-aanestysId=jsonDataRow[1],\
-        edustajaId=jsonDataRow[0],\
-        edustajaAanestys=jsonDataRow[6],\
-        edustajaEtunimi=jsonDataRow[2],\
-        edustajaSukunimi=jsonDataRow[3])'''
 
 def fetchJsonFromUrl(url):
     import urllib
@@ -218,14 +176,8 @@ def listAllIstuntoRowsForYear(year):
     return Istunto.objects.filter(vuosi=year)
 
 def fetchAanestysEdustajaRowsForYear(year):
-    #istuntoRows = listAllIstuntoRowsForYear(year)
-    #howManyIstuntosToProcess = len(istuntoRows)
-    #howManyIstuntosProcessed = 0
-    #for istunto in istuntoRows:
-    #    howManyIstuntosProcessed += 1
     print("käsitellään vuosi " + str(year))
-    #print(\
-    #    "istunto " + str(howManyIstuntosProcessed) + " / " + str(howManyIstuntosToProcess))
+
     aanestysRows = listAllAanestysRowsForYear(year)
     howManyToProcess = len(aanestysRows)
     howManyProcessed = 0

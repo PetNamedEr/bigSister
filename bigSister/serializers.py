@@ -6,7 +6,11 @@ class AanestysSerializer(serializers.ModelSerializer):
     class Meta:
         model = Aanestys
         fields = (\
+            'aanestysAlkuaika',\
             'aanestysOtsikko',\
+            'aanestysTulosEi',\
+            'aanestysTulosJaa',\
+            'aanestysTulosPoissa',\
             'aanestysValtiopaivaasia',\
             'id',\
             'istuntoNumero',\
