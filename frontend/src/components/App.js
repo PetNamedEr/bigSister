@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Route, BrowserRouter } from 'react-router-dom';
 
 import configureStore from '../store/configureStore';
+import BallotCard from './BallotCard';
 import BallotList from './BallotList';
 import Layout from './Layout';
 
@@ -28,7 +29,7 @@ const App = (props) => {
       <Provider store={store} >
       <BrowserRouter>
           <Layout>
-          <Route exact path="/" component={BallotList} />
+          <Route exact path="/" component={BallotCard} />
             </Layout>
             </BrowserRouter>
       </Provider>

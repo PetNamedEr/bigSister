@@ -138,20 +138,6 @@ function CustomPieChart(props) {
                     <MenuItem onClick={(evt) => {swapColors(); handleClose(evt);}}>Swap colors</MenuItem>
                 </Menu>
             </Box>
-            Text:
-            <TextField
-                type="text"
-                value={userInputText}
-                style={{ border: 'solid' }}
-                onChange={handleUserInputTextChange} />
-            <br />
-            Number:
-            <TextField
-                type="text"
-                value={userInputNumber}
-                style={{ border: 'solid' }}
-                onChange={handleUserInputNumberChange} />
-            <br />
             <Button onClick={addUserInputsToPieChartData}>ADD</Button>
         </>
 	);

@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { ballotsFetchData } from '../actions/ballots';
 import AdvancedGridList from "./AdvancedGridList";
 import CustomPieChart from "./CustomPieChart";
+import BallotDetailPartyList from "./BallotDetailPartyList";
+import BallotDetailVotesDistribution from "./BallotDetailVotesDistribution";
 
 const BallotCard = (props) => {
     const getBallotVaskiLink = (aanestysValtiopaivaasia) => {
@@ -31,7 +33,9 @@ const BallotCard = (props) => {
 
     return (
         <div>
-            <CustomPieChart />
+            <BallotDetailPartyList />
+            <BallotDetailVotesDistribution />
+            <CustomPieChart justify="center"/>
             {!props.isLoading ? (
                 <>
                     {props.ballots.id}

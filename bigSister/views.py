@@ -5,6 +5,7 @@ from .models import AanestysEdustaja
 from .models import Istunto
 from .models import MemberOfParliament
 from .serializers import AanestysSerializer
+from .serializers import AanestysEdustajaSerializer
 from .serializers import IstuntoSerializer
 from rest_framework import generics
 from django.http import HttpResponse
@@ -31,6 +32,24 @@ class AanestysDetail(generics.RetrieveAPIView):
     lookup_field = 'id'
     queryset = Aanestys.objects.all()
     serializer_class = AanestysSerializer
+
+
+class AanestysEdustajaListAPIView(generics.ListAPIView):
+    serializer_class = AanestysEdustajaSerializer
+
+    def get_queryset(self):
+        """
+        This view should return a list of all the purchases for
+        the user as determined by the username portion of the URL.
+        """
+        aanestysId = self.kwargs['aanestysId']
+        return AanestysEdustaja.objects.filter(aanestysId=aanestysId)
+'''
+class AanestysEdustajaListAPIView(generics.ListAPIView):
+    lookup_field = 'aanestysId'
+    queryset = AanestysEdustaja.objects.all()
+    serializer_class = AanestysEdustajaSerializer
+'''
 
 def createAanestysObject(jsonDataRow):
     otsikko = ""
